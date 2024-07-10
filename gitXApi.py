@@ -1,3 +1,5 @@
+from dateutil.utils import today
+import dateutil.tz
 from git import Repo, Diff, Commit
 from git.compat import defenc
 from tincan import (
@@ -102,7 +104,7 @@ def commit_to_stmt(
     """
     stmt = Statement()
     stmt.timestamp = commit.authored_date
-    stmt.stored = dateutil.utils.today()
+    stmt.stored = today(tzinfo=dateutil.tz.gettz())
 
     stmt.actor = Agent()
     stmt.actor.name = commit.author.name
