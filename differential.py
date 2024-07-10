@@ -341,10 +341,10 @@ class Differential(SerializableBase):
     @parts.setter
     def parts(self, value):
         if value is not None:
-            if not isinstance(value, list) or not all(
-                isinstance(item, DiffPart) for item in value
-            ):
+            if not isinstance(value, list):
                 raise ValueError("Property parts must be a list of DiffPart instances")
+            if not all(isinstance(item, DiffPart) for item in value):
+                value = [DiffPart(e) for e in value]
         self._parts = value
 
     @parts.deleter

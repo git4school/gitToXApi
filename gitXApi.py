@@ -141,3 +141,12 @@ def generate_xapi(repo: Repo) -> list[Statement]:
         stmts.append(commit_to_stmt(current, before))
         before = current
     return stmts
+
+
+def deserialize_extension_for_all(l: list[Statement], id: str, cons: any):
+    for s in l:
+        deserialize_extension(s, id, cons)
+
+
+def deserialize_extension(s: Statement, id: str, cons: any):
+    s.object.definition.extensions[id] = cons(s.object.definition.extensions[id])
