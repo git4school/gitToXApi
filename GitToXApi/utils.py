@@ -13,9 +13,7 @@ from tincan import (
     ActivityDefinition,
 )
 
-import dateutil
-
-from differential import Differential, DiffPart
+from GitToXApi.differential import Differential, DiffPart
 
 
 def diff_to_obj(diff: Diff) -> Differential:
@@ -143,10 +141,19 @@ def generate_xapi(repo: Repo) -> list[Statement]:
     return stmts
 
 
-def deserialize_extension_for_all(l: list[Statement], id: str, cons: any):
+def deserialize_definition_extension_for_all(l: list[Statement], id: str, cons: any):
     for s in l:
-        deserialize_extension(s, id, cons)
+        deserialize_definition_extension(s, id, cons)
 
 
-def deserialize_extension(s: Statement, id: str, cons: any):
+def deserialize_definition_extension(s: Statement, id: str, cons: any):
     s.object.definition.extensions[id] = cons(s.object.definition.extensions[id])
+
+
+def deserialize_context_extension_for_all(l: list[Statement], id: str, cons: any):
+    for s in l:
+        deserialize_context_extension(s, id, cons)
+
+
+def deserialize_context_extension(s: Statement, id: str, cons: any):
+    s.object.context.extensions[id] = cons(s.object.definition.extensions[id])
