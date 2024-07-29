@@ -29,6 +29,10 @@ To store git differential on a statement we use extensions in object.definition
           ]
 ```
 
+## Installation
+
+Use pip to install this library : `pip install GitToXApi`
+
 ## Example
 
 ### Conversion
