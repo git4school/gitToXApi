@@ -41,6 +41,11 @@ import json
 
 repo = git.Repo("path/to/example_repo")
 stmts: list[Statement] = utils.generate_xapi(repo)
+
+# With custom git diff arguments 
+stmts: list[Statement] = utils.generate_xapi(repo, {"unified": 1000})
+
+
 ```
 
 ### Serialization

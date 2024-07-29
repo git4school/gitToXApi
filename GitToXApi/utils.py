@@ -88,7 +88,7 @@ def diff_to_obj(diff: Diff) -> Differential:
 
 
 def commit_to_stmt(
-    commit: Commit, before: any = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
+    commit: Commit, before: any = "4b825dc642cb6eb9a060e54bf8d69288fbee4904", **kwargs
 ) -> Statement:
     """
     Turn git commit to xApi statement
@@ -118,7 +118,7 @@ def commit_to_stmt(
     stmt.object.definition.description = LanguageMap()
     stmt.object.definition.description["en-US"] = commit.message.strip()
 
-    diff = commit.diff(before, create_patch=True, R=True)
+    diff = commit.diff(before, create_patch=True, R=True, **kwargs)
 
     stmt.object.definition.extensions = Extensions()
     stmt.object.definition.extensions["git"] = [diff_to_obj(v) for v in diff]
@@ -127,8 +127,14 @@ def commit_to_stmt(
     return stmt
 
 
-def generate_xapi(repo: Repo) -> list[Statement]:
-    """_summary_ Generate list of statements with each statement that represent a commit and its diff with the commit before"""
+def generate_xapi(repo: Repo, diff_args) -> list[Statement]:
+    """_summary_ Generate list of statements with each statement that represent a commit and its diff with the commit before
+
+    :param repo:
+
+    :param diff_args:
+            Additional arguments passed to :manpage:`git-diff(1)`
+    """
     commits = list(repo.iter_commits())
 
     # The first initial commit is the empty one, this is its hash (its the same accross all git repositories)
@@ -136,7 +142,7 @@ def generate_xapi(repo: Repo) -> list[Statement]:
 
     stmts = []
     for current in commits[::-1]:
-        stmts.append(commit_to_stmt(current, before))
+        stmts.append(commit_to_stmt(current, before, **diff_args))
         before = current
     return stmts
 
