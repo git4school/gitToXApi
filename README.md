@@ -39,7 +39,7 @@ from tincan import Statement
 import git
 import json
 
-repo = git.Repo("tp-welcome-2023-2024-Merlinpinpin1")
+repo = git.Repo("path/to/example_repo")
 stmts: list[Statement] = utils.generate_xapi(repo)
 ```
 
