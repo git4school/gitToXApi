@@ -14,6 +14,8 @@ from tincan import (
 )
 
 from GitToXApi.differential import Differential, DiffPart
+import json
+from typing import TextIO
 
 
 def diff_to_obj(diff: Diff) -> Differential:
@@ -163,3 +165,20 @@ def deserialize_context_extension_for_all(l: list[Statement], id: str, cons: any
 
 def deserialize_context_extension(s: Statement, id: str, cons: any):
     s.object.context.extensions[id] = cons(s.object.definition.extensions[id])
+
+
+def serialize_statements(stmts: list[Statement], *args, **kwargs) -> str:
+    return json.dumps([stmt.as_version() for stmt in stmts], *args, **kwargs)
+
+
+def deserialize_statements(fp: TextIO) -> list[Statement]:
+    raw_json = json.load(fp)
+    stmts = [Statement(e) for e in raw_json]
+
+    for stmt in stmts:
+
+        git_o = stmt.object.definition.extensions["git"]
+        if git_o != None and type(git_o) == list:
+            stmt.object.definition.extensions["git"] = [Differential(v) for v in git_o]
+
+    return stmts

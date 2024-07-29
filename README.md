@@ -53,25 +53,18 @@ stmts: list[Statement] = utils.generate_xapi(repo, {"unified": 1000})
 ```py
 import json
 with open("dump.json", "w") as f:
-    f.write(json.dumps([stmt.as_version() for stmt in stmts]))
+    f.write(utils.serialize_statements(stmts))
+
+    # With custom serializing params
+    f.write(utils.serialize_statements(stmts, indent=2))
 ```
 
 ### Deserialization
 
 ```py
-import json
-from tincan import Statement
-from GitToXApi import Differential
+import GitToXApi.utils as utils
 
-raw = None
-with open("dump.json") as f:
-    raw = json.load(f)
-stmts = [Statement(e) for e in raw]
-
-# Ensure typing of git extension
-for stmt in stmts:
-
-    git_o = stmt.object.definition.extensions["git"]
-    if git_o != None and type(git_o) == list:
-        stmt.object.definition.extensions["git"] = [Differential(v) for v in git_o]
+stmts = None
+with open("dump.json", "r") as f:
+    stmts = utils.deserialize_statements(f)
 ```
