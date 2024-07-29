@@ -3,13 +3,13 @@ from distutils.core import setup
 setup(
     name="GitToXApi",
     packages=["GitToXApi"],
-    version="0.1",
+    version="0.2",
     license="MIT",
     description="Enable creation and edition of xapi file from git source",
     author="Git4School",
     author_email="",
     url="https://github.com/git4school/gitToXApi",
-    download_url="https://github.com/git4school/gitToXApi/archive/refs/tags/v_0.1.tar.gz",
+    download_url="https://github.com/git4school/gitToXApi/archive/refs/tags/v_0.2.tar.gz",
     keywords=[
         "XApi",
     ],
