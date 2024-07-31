@@ -65,9 +65,8 @@ def diff_to_obj(diff: Diff) -> Differential:
                     l: str = "@@ -" + l
 
                 lines = l.splitlines()
-
                 positions = lines[0].split("@@")[1][1:-1].split(" ")
-                a_start_line, a_interval = positions[0][1:].split(",")
+                a_start_line, a_interval = (positions[0][1:].split(",") + ["1"])[:2]
                 b_start_line, b_interval = (positions[1][1:].split(",") + ["1"])[:2]
 
                 part = DiffPart()
