@@ -84,7 +84,7 @@ def diff_to_obj(diff: Diff) -> Differential:
 
             return content
         except UnicodeDecodeError:
-            msg += "OMITTED BINARY DATA"
+            pass
 
     return content
 
