@@ -9,7 +9,7 @@ long_description = (this_directory / "README.md").read_text()
 setup(
     name="GitToXApi",
     packages=["GitToXApi"],
-    version="0.2.1",
+    version="0.2.2",
     license="MIT",
     description="Enable creation and edition of xapi file from git source",
     long_description=long_description,
